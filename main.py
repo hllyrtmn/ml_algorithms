@@ -69,7 +69,7 @@ def main():
         print(f"\n{best_result['dataset_name']}:")
         print(f" Best: {best_result['model_name']}")
         print(f" Accuracy: {best_result['metrics']['accuracy']:.4f}")
-        print(f" TimeZone: {best_result['train_time']:.4f} saniye")
+        print(f" Eğitim Süresi: {best_result['train_time']:.4f} saniye")
 
 
 if __name__ == "__main__":

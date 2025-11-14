@@ -1,9 +1,11 @@
 from sklearn.datasets import load_iris, load_wine
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import numpy as np
 
 
 class DatasetLoader:
+    """Dataset yükleme ve hazırlama class'ı"""
     
     def __init__(self):
         self.datasets = {
@@ -19,6 +21,7 @@ class DatasetLoader:
             iris.data, iris.target, test_size=test_size, random_state=random_state
         )
         
+        # Normalizasyon
         scaler = StandardScaler()
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
@@ -34,7 +37,7 @@ class DatasetLoader:
         
         self.dataset_info['iris'] = {
             'name': 'Iris Dataset',
-            'description': 'Çiçek türü sınıflandırması',
+            'description': 'Çiçek türü sınıflandırması (3 sınıf)',
             'n_samples': len(iris.data),
             'n_features': len(iris.feature_names),
             'n_classes': len(iris.target_names),
@@ -44,11 +47,13 @@ class DatasetLoader:
         return self.datasets['iris']
     
     def load_wine_dataset(self, test_size=0.3, random_state=42):
+        """Wine dataset'ini yükle ve hazırla"""
         wine = load_wine()
         X_train, X_test, y_train, y_test = train_test_split(
             wine.data, wine.target, test_size=test_size, random_state=random_state
         )
         
+        # Normalizasyon
         scaler = StandardScaler()
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
@@ -62,24 +67,30 @@ class DatasetLoader:
             'target_names': wine.target_names
         }
         
+        # Wine dataset için anlamlı sınıf isimleri (cultivar türleri)
+        wine_class_names = ['Cultivar 1', 'Cultivar 2', 'Cultivar 3']
+        
         self.dataset_info['wine'] = {
             'name': 'Wine Dataset',
-            'description': 'Şarap kalitesi sınıflandırması',
+            'description': 'Şarap kalitesi sınıflandırması (3 sınıf)',
             'n_samples': len(wine.data),
             'n_features': len(wine.feature_names),
             'n_classes': len(wine.target_names),
-            'classes': wine.target_names.tolist()
+            'classes': wine_class_names
         }
         
         return self.datasets['wine']
     
     def get_dataset(self, dataset_name):
+        """Belirli bir dataset'i getir"""
         return self.datasets.get(dataset_name)
     
     def get_dataset_info(self, dataset_name):
+        """Dataset bilgilerini getir"""
         return self.dataset_info.get(dataset_name)
     
     def load_all_datasets(self):
+        """Tüm dataset'leri yükle"""
         self.load_iris_dataset()
         self.load_wine_dataset()
         return self.datasets
