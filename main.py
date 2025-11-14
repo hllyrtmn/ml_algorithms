@@ -5,6 +5,7 @@ from dataset.dataset_loader import DatasetLoader
 from ml_models.logistic_regression_model import LogisticRegressionModel
 from ml_models.random_forest_model import RandomForestModel
 from ml_models.svm_model import SVMModel
+from report_generator.excel_report_service import ExcelReportService
 
 
 def main():
@@ -59,6 +60,9 @@ def main():
                 'train_time': train_time
             })
     
+    report_service = ExcelReportService('ML_Diff_Report.xlsx')
+    report_file = report_service.generate_report(results)
+
     for dataset_name in datasets:
         dataset_results = [r for r in results if dataset_name in r['dataset_name'].lower()]
         best_result = max(dataset_results, key=lambda x: x['metrics']['accuracy'])
