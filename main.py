@@ -12,24 +12,17 @@ def main():
     loader.load_all_datasets()
     
     datasets = ['iris', 'wine']
-    for ds_name in datasets:
-        info = loader.get_dataset_info(ds_name)
-        print(f"  ✓ {info['name']}: {info['n_samples']} örnek, {info['n_features']} özellik, {info['n_classes']} sınıf")
-    
+
     models = [
         LogisticRegressionModel(),
         RandomForestModel(n_estimators=100),
         SVMModel(kernel='rbf')
     ]
     
-    for model in models:
-        print(f"  ✓ {model.get_name()}")
-    
     results = []
     
     for model in models:
         for dataset_name in datasets:
-            print(f"\n  → {model.get_name()} + {dataset_name.upper()}")
             
             data = loader.get_dataset(dataset_name)
             dataset_info = loader.get_dataset_info(dataset_name)
@@ -44,12 +37,6 @@ def main():
             
             metrics = model.get_metrics(data['y_test'], y_pred)
             
-            print(f"    Accuracy: {metrics['accuracy']:.4f}")
-            print(f"    Precision: {metrics['precision']:.4f}")
-            print(f"    Recall: {metrics['recall']:.4f}")
-            print(f"    F1-Score: {metrics['f1_score']:.4f}")
-            print(f"    Eğitim süresi: {train_time:.4f} saniye")
-            
             results.append({
                 'model_name': model.get_name(),
                 'dataset_name': dataset_info['name'],
@@ -61,15 +48,6 @@ def main():
     
     report_service = ExcelReportService('ML_Diff_Report.xlsx')
     report_file = report_service.generate_report(results)
-
-    for dataset_name in datasets:
-        dataset_results = [r for r in results if dataset_name in r['dataset_name'].lower()]
-        best_result = max(dataset_results, key=lambda x: x['metrics']['accuracy'])
-        
-        print(f"\n{best_result['dataset_name']}:")
-        print(f" Best: {best_result['model_name']}")
-        print(f" Accuracy: {best_result['metrics']['accuracy']:.4f}")
-        print(f" Eğitim Süresi: {best_result['train_time']:.4f} saniye")
 
 
 if __name__ == "__main__":

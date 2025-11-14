@@ -5,7 +5,6 @@ import numpy as np
 
 
 class DatasetLoader:
-    """Dataset yükleme ve hazırlama class'ı"""
     
     def __init__(self):
         self.datasets = {
@@ -21,7 +20,6 @@ class DatasetLoader:
             iris.data, iris.target, test_size=test_size, random_state=random_state
         )
         
-        # Normalizasyon
         scaler = StandardScaler()
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
@@ -53,7 +51,6 @@ class DatasetLoader:
             wine.data, wine.target, test_size=test_size, random_state=random_state
         )
         
-        # Normalizasyon
         scaler = StandardScaler()
         X_train = scaler.fit_transform(X_train)
         X_test = scaler.transform(X_test)
@@ -67,7 +64,6 @@ class DatasetLoader:
             'target_names': wine.target_names
         }
         
-        # Wine dataset için anlamlı sınıf isimleri (cultivar türleri)
         wine_class_names = ['Cultivar 1', 'Cultivar 2', 'Cultivar 3']
         
         self.dataset_info['wine'] = {
@@ -82,15 +78,12 @@ class DatasetLoader:
         return self.datasets['wine']
     
     def get_dataset(self, dataset_name):
-        """Belirli bir dataset'i getir"""
         return self.datasets.get(dataset_name)
     
     def get_dataset_info(self, dataset_name):
-        """Dataset bilgilerini getir"""
         return self.dataset_info.get(dataset_name)
     
     def load_all_datasets(self):
-        """Tüm dataset'leri yükle"""
         self.load_iris_dataset()
         self.load_wine_dataset()
         return self.datasets
