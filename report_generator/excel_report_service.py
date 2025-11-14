@@ -13,7 +13,6 @@ class ExcelReportService:
         self.wb.remove(self.wb.active)
         
     def create_summary_sheet(self, results):
-        """Özet sayfa oluştur"""
         ws = self.wb.create_sheet("Özet")
         
         ws['A1'] = 'Makine Öğrenmesi Karşılaştırma Raporu'

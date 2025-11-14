@@ -82,9 +82,6 @@ def main():
         SVMModel(kernel='rbf')
     ]
     
-    for model in models:
-        print(f"  ✓ {model.get_name()}")
-    
     results = []
     
     for model in models:

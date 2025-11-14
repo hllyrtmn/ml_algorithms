@@ -3,7 +3,6 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 import numpy as np
 
 class RandomForestModel:
-    """Random Forest Model Class"""
     
     def __init__(self, n_estimators=100, random_state=42):
         self.model = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state)
