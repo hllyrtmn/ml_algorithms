@@ -1,5 +1,6 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+import numpy as np
 
 class LogisticRegressionModel:
     

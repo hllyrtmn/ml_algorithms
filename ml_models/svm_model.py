@@ -1,6 +1,6 @@
 from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-
+import numpy as np
 
 class SVMModel:
     def __init__(self, kernel='rbf', random_state=42):

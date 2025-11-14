@@ -1,6 +1,5 @@
 
 import time
-
 from dataset.dataset_loader import DatasetLoader
 from ml_models.logistic_regression_model import LogisticRegressionModel
 from ml_models.random_forest_model import RandomForestModel

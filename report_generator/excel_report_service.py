@@ -1,7 +1,9 @@
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
+from openpyxl.utils.dataframe import dataframe_to_rows
 from datetime import datetime
-
+import numpy as np
+import pandas as pd
 
 class ExcelReportService:
     
@@ -14,12 +16,10 @@ class ExcelReportService:
         """Özet sayfa oluştur"""
         ws = self.wb.create_sheet("Özet")
         
-        # Başlık
         ws['A1'] = 'Makine Öğrenmesi Karşılaştırma Raporu'
         ws['A1'].font = Font(size=16, bold=True)
         ws['A2'] = f'Oluşturulma Tarihi: {datetime.now().strftime("%d.%m.%Y %H:%M")}'
         
-        # Tablo başlıkları
         row = 4
         headers = ['Model', 'Dataset', 'Accuracy', 'Precision', 'Recall', 'F1-Score']
         for col, header in enumerate(headers, start=1):
@@ -95,7 +95,6 @@ class ExcelReportService:
             ws.cell(row=row, column=2, value=explanation)
             ws.merge_cells(start_row=row, start_column=2, end_row=row, end_column=4)
         
-        # Sütun genişliklerini ayarla
         ws.column_dimensions['A'].width = 20
         for col in ['B', 'C', 'D', 'E']:
             ws.column_dimensions[col].width = 15
@@ -156,10 +155,8 @@ class ExcelReportService:
         ws.column_dimensions['B'].width = 80
     
     def generate_report(self, results):
-        # Özet sayfa
         self.create_summary_sheet(results)
         
-        # Her model-dataset kombinasyonu için CM sayfası
         for result in results:
             self.create_confusion_matrix_sheet(
                 result['model_name'],
@@ -168,9 +165,6 @@ class ExcelReportService:
                 result['class_names']
             )
         
-        # Algoritma açıklamaları
         self.add_algorithm_explanations_sheet()
-        
-        # Kaydet
         self.wb.save(self.filename)
         return self.filename
